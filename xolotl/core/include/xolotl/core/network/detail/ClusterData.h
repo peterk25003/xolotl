@@ -150,6 +150,7 @@ private:
 		V_FORMATION,
 		V2_FORMATION,
 		AV_BUBBLE_RAD,
+		AV_BUBBLE_RAD_DV
 		SINK_STRENGTH,
 		DEPTH,
 		F_BURSTING,
@@ -306,6 +307,19 @@ public:
 	setBubbleAvRad(double val)
 	{
 		setVal(_floatVals, AV_BUBBLE_RAD, val);
+	}
+
+	KOKKOS_INLINE_FUNCTION
+	double
+	bubbleAvRaddV() const
+	{
+		return _floatVals[AV_BUBBLE_RAD_DV];
+	}
+
+	void
+	setBubbleAvRaddV(double val)
+	{
+		setVal(_floatVals, AV_BUBBLE_RAD_DV, val);
 	}
 
 	KOKKOS_INLINE_FUNCTION

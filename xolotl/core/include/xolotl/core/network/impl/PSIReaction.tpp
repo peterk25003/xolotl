@@ -1092,20 +1092,9 @@ PSITransformReaction<TSpeciesEnum>::computeFlux(
 	auto rate = this->getAppliedRate(gridIndex);
 
 	auto ssbmId = this->_product;
-	auto avV = concentrations(ssbmId + 2) / concentrations(ssbmId);
-	auto avH = concentrations(ssbmId + 1) / concentrations(ssbmId);
-	if (concentrations(ssbmId) == 0.0) {
-		avV = 0.0;
-		avH = 0.0;
-	}
-
-	// Get the largest cluster
-	double largestHSize = this->_clusterData->maxHSize();
-	// Threshold contribution
-	double sigmo = util::computeSigmoid(avH, largestHSize, 2.0);
-
+	
 	Kokkos::atomic_sub(
-		&fluxes[ssbmId + 1], rate * concentrations[ssbmId + 1] * sigmo);
+		&fluxes[ssbmId + 1], rate * concentrations[ssbmId + 1]);
 }
 
 template <typename TSpeciesEnum>
@@ -1123,20 +1112,24 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 
 	auto rate = this->getAppliedRate(gridIndex);
 
-	auto ssbmId = this->_product;
-	auto avV = concentrations(ssbmId + 2) / concentrations(ssbmId);
-	auto avH = concentrations(ssbmId + 1) / concentrations(ssbmId);
-	if (concentrations(ssbmId) == 0.0) {
-		avV = 0.0;
-		avH = 0.0;
-	}
+	
 
-	// Get the largest cluster
-	double largestHSize = this->_clusterData->maxHSize();
-	// Threshold contribution
-	double sigmo = util::computeSigmoid(avH, largestHSize, 2.0);
+	// Compute the terms depending on average V
+		double radius = this->_clusterData->bubbleAvRad();
+		double rdV = this->_clusterData->bubbleAvRaddV();
+		double z = (2.0 * depth * radius)/(depth - 1.0);
+		double zdV = rdv * ((2.0 * depth)/(depth - 1.0));
+		double g = 1.0 / (1.0 + exp(-z));
+		double gdV = zdV * g * (1.0 - g);
 
-	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), rate * sigmo);
+		double fdH = 0.0;
+		double fdV = this->_coefs(0, 0, 0, 0) * rate * gdV * (1/stdC);
+		
+		if (bC < 1.0e-16) {
+			fdH = 0.0;
+			fdV = 0.0;
+
+	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), fdV);
 }
 } // namespace network
 } // namespace core

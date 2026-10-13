@@ -140,6 +140,25 @@ public:
 				(1.0 / 3.0));
 	}
 
+
+	double
+	computeBubbleRadiusdV(double amount, double latticeParameter)
+	{
+		// Find the edge of the phase space
+		const auto& largestReg = this->getCluster(largestClusterId).getRegion();
+		Composition hiLargest = largestReg.getUpperLimitPoint();
+		double largestSize = hiLargest[Species::V] - 1;
+
+		// Get the minimum amount for a valid value
+		amount = util::max(amount, largestSize);
+
+		return (1.0 / 3.0) * pow((3 * pow(latticeParameter, 3.0)) /
+					(8.0 * ::xolotl::core::pi),
+				(1.0 / 3.0)) * pow(amount, -2.0 / 3.0);
+		
+
+	}
+
 	IndexType
 	checkLargestClusterId();
 

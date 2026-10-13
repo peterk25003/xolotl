@@ -237,6 +237,10 @@ PSIReactionNetwork<TSpeciesEnum>::computePartialsPreProcess(
 		// Compute and save the radius from that
 		this->_clusterData.h_view().setBubbleAvRad(util::max(0.0,
 			computeBubbleRadius(avComp, clusterDataMirror.latticeParameter())));
+		// Compute and save dr/dv
+		this->_clusterData.h_view().setBubbleAvRaddV(util::max(0.0,
+			computeBubbleRadiusdV(avComp, clusterDataMirror.latticeParameter())));
+
 
 		// Set the depth for bursting
 		this->_clusterData.h_view().setDepth(surfaceDepth);
@@ -908,7 +912,7 @@ PSIReactionGenerator<TSpeciesEnum>::addSingleSizeReactions(
 
 		// Bursting, add it once
 		if (i == 0) {
-			// this->addTransformReaction(tag, {bubbleId, bubbleId});
+			this->addTransformReaction(tag, {bubbleId, bubbleId});
 		}
 
 		// V case
