@@ -1109,9 +1109,8 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 		return Superclass::computePartialDerivatives(
 			concentrations, values, gridIndex);
 	}
-
+	auto ssbmId = this->_product;
 	auto rate = this->getAppliedRate(gridIndex);
-	auto stdC = concentrations(stdClusterId);
 	auto bC = concentrations(ssbmId);
 	auto depth = this->_clusterData->getDepth();
 
@@ -1124,7 +1123,7 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 		double gdV = zdV * g * (1.0 - g);
 
 		double fdH = 0.0;
-		double fdV = this->_coefs(0, 0, 0, 0) * rate * gdV * (1/stdC);
+		double fdV = this->_coefs(0, 0, 0, 0) * rate * gdV * (1/bC);
 
 		if (bC < 1.0e-16) {
 			fdH = 0.0;
