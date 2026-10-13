@@ -1124,11 +1124,11 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 
 		double fdH = 0.0;
 		double fdV = this->_coefs(0, 0, 0, 0) * rate * gdV * (1/stdC);
-		
+
 		if (bC < 1.0e-16) {
 			fdH = 0.0;
 			fdV = 0.0;
-
+		}
 	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), fdV);
 }
 } // namespace network
