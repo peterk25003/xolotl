@@ -1111,14 +1111,15 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 	}
 
 	auto rate = this->getAppliedRate(gridIndex);
-
-	
+	auto stdC = concentrations(stdClusterId);
+	auto bC = concentrations(ssbmId);
+	auto depth = this->_clusterData->getDepth();
 
 	// Compute the terms depending on average V
 		double radius = this->_clusterData->bubbleAvRad();
 		double rdV = this->_clusterData->bubbleAvRaddV();
 		double z = (2.0 * depth * radius)/(depth - 1.0);
-		double zdV = rdv * ((2.0 * depth)/(depth - 1.0));
+		double zdV = rdV * ((2.0 * depth)/(depth - 1.0));
 		double g = 1.0 / (1.0 + exp(-z));
 		double gdV = zdV * g * (1.0 - g);
 
