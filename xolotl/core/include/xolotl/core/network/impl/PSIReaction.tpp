@@ -1094,7 +1094,7 @@ PSITransformReaction<TSpeciesEnum>::computeFlux(
 	auto ssbmId = this->_product;
 	
 	Kokkos::atomic_sub(
-		&fluxes[ssbmId + 1], rate * concentrations[ssbmId + 1]);
+		&fluxes[ssbmId + 1], rate * concentrations[ssbmId]);
 }
 
 template <typename TSpeciesEnum>
@@ -1113,23 +1113,29 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 	auto rate = this->getAppliedRate(gridIndex);
 	auto bC = concentrations(ssbmId);
 	auto depth = this->_clusterData->getDepth();
+	auto f = this->_clusterData->getFBursting();
 
 	// Compute the terms depending on average V
 		double radius = this->_clusterData->bubbleAvRad();
 		double rdV = this->_clusterData->bubbleAvRaddV();
 		double z = (2.0 * depth * radius)/(depth - 1.0);
 		double zdV = rdV * ((2.0 * depth)/(depth - 1.0));
-		double g = 1.0 / (1.0 + exp(-z));
+		double g = 1 / (1.0 + exp(-z));
 		double gdV = zdV * g * (1.0 - g);
+		// Following f1* = g*bC
+		double f1dV = bC * gdV;
 
-		double fdH = 0.0;
-		double fdV = this->_coefs(0, 0, 0, 0) * rate * gdV * (1/bC);
+		double fdHCb = 0.0;
+		double fdVCb = this->_coefs(0, 0, 0, 0) * f1dV * (1/bC);
+		double fdCb = this->_coefs(0, 0, 0, 0) * g;
 
 		if (bC < 1.0e-16) {
 			fdH = 0.0;
 			fdV = 0.0;
 		}
-	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), fdV);
+
+	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), f * fdCb);
+	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][3]), f * fdVCb);
 }
 } // namespace network
 } // namespace core
