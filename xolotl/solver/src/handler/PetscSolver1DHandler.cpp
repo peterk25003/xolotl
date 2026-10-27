@@ -334,12 +334,18 @@ PetscSolver1DHandler::initializeConcentration(
 				concOffset[n] = 0.0;
 			}
 
-			// Initialize the option specified concentration
+			// Initialize the option specified concentration up to 10 microns
 			if (i >= leftOffset and not hasConcentrations and
-				i < nX - rightOffset) {
+				i < 219) {
 				for (auto pair : initialConc) {
 					concOffset[pair.first] = pair.second;
 				}
+			}
+
+			//Set 1 appm of 50V voids below 10 microns
+				if (i >= 219 and not hasConcentrations and
+					i < nX - rightOffset) { 
+					concOffset[55] = 6.317e-5;
 			}
 		}
 
