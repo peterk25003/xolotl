@@ -341,7 +341,7 @@ PetscSolver1DHandler::initializeConcentration(
 				for (auto pair : initialConc) {
 					concOffset[pair.first] = pair.second;
 				}
-				if (i> 218) {
+				for (i> 218) {
 					concOffset[55] = 6.317e-5;
 				}
 			}
