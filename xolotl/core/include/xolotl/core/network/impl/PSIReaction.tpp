@@ -1124,13 +1124,9 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 		double gdV = zdV * g * (1.0 - g);
 		// Following f1* = g*bC
 		double f1dV = gdV;
-
 		double fdHCb = 0.0;
 		double fdVCb = this->_coefs(0, 0, 0, 0) * f1dV;
 		double fdCb = this->_coefs(0, 0, 0, 0) * g;
-
-		std::cout << "gfdcB:" << fdCb;
-		std::cout << "fdVCb:" << fdVCb;
 
 	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), f * fdCb);
 	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][3]), f * fdVCb);
