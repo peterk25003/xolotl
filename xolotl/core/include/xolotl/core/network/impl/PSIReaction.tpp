@@ -1123,10 +1123,10 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 		double g = 1 / (1.0 + exp(-z));
 		double gdV = zdV * g * (1.0 - g);
 		// Following f1* = g*bC
-		double f1dV = bC * gdV;
+		double f1dV = gdV;
 
 		double fdHCb = 0.0;
-		double fdVCb = this->_coefs(0, 0, 0, 0) * f1dV * (1/bC);
+		double fdVCb = this->_coefs(0, 0, 0, 0) * f1dV;
 		double fdCb = this->_coefs(0, 0, 0, 0) * g;
 
 		std::cout << "gfdcB:" << fdCb;
