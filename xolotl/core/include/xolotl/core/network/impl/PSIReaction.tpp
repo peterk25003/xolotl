@@ -1114,7 +1114,7 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 	auto bC = concentrations(ssbmId);
 	auto depth = this->_clusterData->getDepth();
 	auto f = this->_clusterData->getFBursting();
-
+	std::cout << "f:" << f;
 	// Compute the terms depending on average V
 		double radius = this->_clusterData->bubbleAvRad();
 		double rdV = this->_clusterData->bubbleAvRaddV();
@@ -1128,6 +1128,7 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 		double fdVCb = this->_coefs(0, 0, 0, 0) * f1dV;
 		double fdCb = this->_coefs(0, 0, 0, 0) * g;
 
+		
 	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][0]), f * fdCb);
 	Kokkos::atomic_sub(&values(this->_connEntries[1][2][0][3]), f * fdVCb);
 }
