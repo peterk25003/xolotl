@@ -1053,7 +1053,7 @@ PSITransformReaction<TSpeciesEnum>::getAppliedRate(IndexType gridIndex) const
 
 	// Get the current depth
 	auto depth = this->_clusterData->getDepth();
-	auto f = this->_clusterData-> 20.0;
+	auto f = this->_clusterData->getFBursting();
 
 	// TODO: change rate
 	return f * util::computeSigmoid(radius, depth, 2.0);
@@ -1113,7 +1113,7 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 	auto rate = this->getAppliedRate(gridIndex);
 	auto bC = concentrations(ssbmId);
 	auto depth = this->_clusterData->getDepth();
-	auto f = this->_clusterData-> 20.0;
+	auto f = this->_clusterData->getFBursting();
 	
 	// Compute the terms depending on average V
 		double radius = this->_clusterData->bubbleAvRad();
