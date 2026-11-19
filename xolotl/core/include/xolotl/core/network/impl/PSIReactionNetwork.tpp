@@ -167,7 +167,7 @@ template <typename TSpeciesEnum>
 void
 PSIReactionNetwork<TSpeciesEnum>::computeFluxesPreProcess(
 	ConcentrationsView concentrations, FluxesView fluxes, IndexType gridIndex,
-	double surfaceDepth, double spacing)
+	double surfaceDepth, double spacing, const options::IOptions& options)
 {
 	// Near surface trap mutation
 	if (this->_enableTrapMutation) {
@@ -206,7 +206,7 @@ PSIReactionNetwork<TSpeciesEnum>::computeFluxesPreProcess(
 		*/
 
 		// Set the bursting factor
-	this->_clusterData.h_view().setFBursting(opts.getBurstingFactor());
+	this->_clusterData.h_view().setFBursting(options.getBurstingFactor());
 	}
 }
 
@@ -214,7 +214,7 @@ template <typename TSpeciesEnum>
 void
 PSIReactionNetwork<TSpeciesEnum>::computePartialsPreProcess(
 	ConcentrationsView concentrations, Kokkos::View<double*> values,
-	IndexType gridIndex, double surfaceDepth, double spacing)
+	IndexType gridIndex, double surfaceDepth, double spacing, const options::IOptions& options)
 {
 	// Near surface trap mutation
 	if (this->_enableTrapMutation) {
@@ -256,7 +256,7 @@ PSIReactionNetwork<TSpeciesEnum>::computePartialsPreProcess(
 		*/
 
 		// Set the bursting factor
-		this->_clusterData.h_view().setFBursting(opts.getBurstingFactor());
+		this->_clusterData.h_view().setFBursting(options.getBurstingFactor());
 	}
 }
 
