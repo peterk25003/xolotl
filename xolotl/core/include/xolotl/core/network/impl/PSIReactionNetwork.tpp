@@ -206,7 +206,7 @@ PSIReactionNetwork<TSpeciesEnum>::computeFluxesPreProcess(
 		*/
 
 		// Set the bursting factor
-	this->_clusterData.h_view().setFBursting(options.getBurstingFactor());
+		this->_clusterData.h_view().setFBursting(options.getBurstingFactor());
 	}
 }
 
