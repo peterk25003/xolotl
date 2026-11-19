@@ -102,12 +102,12 @@ public:
 	void
 	computeFluxesPreProcess(ConcentrationsView concentrations,
 		FluxesView fluxes, IndexType gridIndex, double surfaceDepth,
-		double spacing);
+		double spacing, const options::IOptions& options);
 
 	void
 	computePartialsPreProcess(ConcentrationsView concentrations,
 		Kokkos::View<double*> values, IndexType gridIndex, double surfaceDepth,
-		double spacing);
+		double spacing, const options::IOptions& options);
 
 	double
 	getTotalTrappedHeliumConcentration(
