@@ -200,7 +200,7 @@ PSIReactionNetwork<TSpeciesEnum>::computeFluxesPreProcess(
 		this->_clusterData.h_view().setDepth(surfaceDepth);
 
 		// Set the largest rate
-		
+
 		/*auto largestRate = this->getLargestRate();
 		this->_clusterData.h_view().setFBursting(largestRate);
 		*/
@@ -251,8 +251,12 @@ PSIReactionNetwork<TSpeciesEnum>::computePartialsPreProcess(
 		this->_clusterData.h_view().setDepth(surfaceDepth);
 
 		// Set the largest rate
-		auto largestRate = this->getLargestRate();
+		/*auto largestRate = this->getLargestRate();
 		this->_clusterData.h_view().setFBursting(largestRate);
+		*/
+
+		// Set the bursting factor
+		this->setFBursting(opts.getBurstingFactor());
 	}
 }
 
