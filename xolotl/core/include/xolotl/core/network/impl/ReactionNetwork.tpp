@@ -94,6 +94,7 @@ ReactionNetwork<TImpl>::ReactionNetwork(const Subpaving& subpaving,
 	this->setEnableAttenuation(map["attenuation"]);
 	this->setEnableConstantReaction(map["constant"]);
 	this->setEnableSSBM(map["SSBM"]);
+	_clusterData.h_view().setFBursting(opts.getBurstingFactor());
 	std::string petscString = opts.getPetscArg();
 	auto tokens = util::Tokenizer<>{petscString}();
 	bool useReduced = false;
