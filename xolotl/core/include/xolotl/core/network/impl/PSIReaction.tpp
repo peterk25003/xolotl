@@ -1114,7 +1114,7 @@ PSITransformReaction<TSpeciesEnum>::computePartialDerivatives(
 	auto bC = concentrations(ssbmId);
 	auto depth = this->_clusterData->getDepth();
 	auto f = this->_clusterData->getFBursting();
-	std::cout << "f:" << f;
+	
 	// Compute the terms depending on average V
 		double radius = this->_clusterData->bubbleAvRad();
 		double rdV = this->_clusterData->bubbleAvRaddV();
